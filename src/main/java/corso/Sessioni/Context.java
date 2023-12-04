@@ -11,13 +11,13 @@ import corso.Sessioni.users.Users;
 public class Context {
 
 	@Bean
-	public Database db(@Value("${db.percorso}") String percorso,
+	public Database db(
+			@Value("${db.percorso}") String percorso,
 			@Value("${db.user}") String user,
 			@Value("${db.pass}") String pass) {
-		System.out.println("init database");
 		return new Database(percorso, user, pass);
 	}
-	
+
 	@Bean
 	public Users users() {
 		System.out.println("init user");

@@ -3,7 +3,6 @@ package corso.Sessioni.users;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import corso.Sessioni.database.Database;
 
@@ -12,30 +11,24 @@ public class Users {
 	@Autowired
 	private Database db;
 
-	private HashMap<String, String> users;
-
-	public HashMap<String, String> getUsers() {
-		getUsersFromDB();
-		return users;
-	}
+	private HashMap<String, String> usersMap;
 
 	public void getUsersFromDB() {
-		users = new HashMap<String, String>();
-	
+		usersMap = new HashMap<String, String>();
+
 		String query = "select * from USERS";
-		for(HashMap<String, Object> record : db.eseguiQuery(query)) {
-			users.put((String)record.get("username"), (String)record.get("pass"));
+		for (HashMap<String, Object> record : db.eseguiQuery(query)) {
+			usersMap.put((String) record.get("username"), (String) record.get("pass"));
 		}
 	}
 
-	public String checkUser(String username, String password) {
-		String ris = "KO";
-		if(users.containsKey(username) && users.get(username).equals(password)) {
-			ris = "OK";
+	public boolean checkUser(String username, String password) {
+		getUsersFromDB();
+		if (usersMap.containsKey(username) && usersMap.get(username).equals(password)) {
+			return true;
 		}
-		return ris;
-	}
-
-
+		return false;
 
 	}
+
+}
